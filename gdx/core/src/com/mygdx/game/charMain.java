@@ -16,14 +16,15 @@ public class charMain {
     Texture imgJump[] = new Texture[5];
     TextureRegion img;
     TextureRegion imgOut;
-    public int nX = 0, nY = 0, nHeight, nWidth, nSpeed, nJHeight, nCount, nCount2;
-    boolean isJump;
+    public int nX = 500, nY = 47, nHeight, nWidth, nSpeed, nJHeight, nCount, nCount2, nJumpH, nFloor, nMapX;
+    boolean isJump, isRun, isJumpD = false, isJumpU = false;
     float fTime = 0;
 
-    public void charMain() {
+    public charMain() {
         for (int i = 0; i < imgStand.length; i++) {
             imgStand[i] = new Texture(Gdx.files.absolute("D:/Mogos/gdx/core/assets/standing/" + i + ".png"));
             imgRun[i] = new Texture(Gdx.files.absolute("D:/Mogos/gdx/core/assets/run/" + i + ".png"));
+            imgJump[i] = new Texture(Gdx.files.absolute("D:/Mogos/gdx/core/assets/jump/" + i + ".png"));
         }
         nHeight = 70;
         nWidth = 35;
@@ -33,39 +34,47 @@ public class charMain {
         nCount2 = 0;
     }
 
-    public void update(int nSpeedX, int nSpeedY, boolean isFlip, boolean isRun) {
-
+    public void update(int nSpeedX, int nSpeedY, boolean isFlip, boolean isJump, boolean isRunM) {
         nX += nSpeedX;
-        if (nSpeedX != 0) {
-            isRun = true;
-        }
+        isRun = isRunM;
         nCount++;
-        if (nCount >= 10) {
+        if (nCount >= 7) {
             nCount = 0;
             nCount2++;
         }
         if (nCount2 == 5) {
             nCount2 = 0;
         }
-        if (isRun) {
-            img = new TextureRegion(imgRun[nCount2]);
+        if (isJumpU || isJumpD) {
+            img = new TextureRegion(imgJump[nCount2]);
         } else {
-            img = new TextureRegion(imgStand[nCount2]);
+            if (isRun) {
+                img = new TextureRegion(imgRun[nCount2]);
+            } else {
+                img = new TextureRegion(imgStand[nCount2]);
+            }
         }
         img.flip(isFlip, false);
-    }
-
-    private void methJump() {
-        int nMax = nY + nJHeight;
-        int nMin = nY;
-        boolean isJumpU = true, isJumpD = false;
-        if (nY < nMax) {
-            nY += nSpeed;
-            isJumpU = false;
-            isJumpD = true;
+        if (isJump) {
+            isJumpU = true;
         }
-        if (!isJumpD || nY <= nMin) {
-            nY -= nSpeed;
+        if (isJumpU) {
+            if (nY <= nJumpH) {
+                nY += 2;
+            } else {
+                isJumpD = true;
+                isJumpU = false;
+            }
+        } else {
+            nJumpH = nY + 30;
         }
+        if (isJumpD) {
+            if (nY >= 47) {
+                nY--;
+            } else {
+                isJumpD = false;
+            }
+        }
+        isRun = false;
     }
 }
