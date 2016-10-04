@@ -35,8 +35,10 @@ public class MyGdxGame3 extends ApplicationAdapter {
         isRun = false;
         if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
             if (char1.nX > 800) {
-                nMapX -= 2;
-                
+                if (nMapX + 4800 > 1000) {
+                    nMapX -= 2;
+                }
+
             } else {
                 nTempX = 2;
             }
@@ -44,21 +46,19 @@ public class MyGdxGame3 extends ApplicationAdapter {
             isFlip = false;
         } else if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
             if (char1.nX < 200) {
-                nMapX += 2;
-                
+                if (nMapX < 0) {
+                    nMapX += 2;
+                }
             } else {
                 nTempX = -2;
             }
             isRun = true;
             isFlip = true;
         }
-        if (Gdx.input.isKeyJustPressed(Input.Keys.UP)) {
-            isJump = true;
-        }
         Gdx.gl.glClearColor(2, 0, 0, 2);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.begin();
-        char1.update(nTempX, nTempY, isFlip, isJump, isRun);
+        char1.update(nTempX, nTempY, isFlip, isRun);
         batch.draw(imgMap, nMapX, 0, 4800, 700);
         batch.draw(char1.img, char1.nX, char1.nY);
         batch.end();

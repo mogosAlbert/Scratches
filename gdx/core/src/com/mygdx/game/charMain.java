@@ -34,7 +34,7 @@ public class charMain {
         nCount2 = 0;
     }
 
-    public void update(int nSpeedX, int nSpeedY, boolean isFlip, boolean isJump, boolean isRunM) {
+    public void update(int nSpeedX, int nSpeedY, boolean isFlip, boolean isRunM) {
         nX += nSpeedX;
         isRun = isRunM;
         nCount++;
@@ -55,7 +55,7 @@ public class charMain {
             }
         }
         img.flip(isFlip, false);
-        if (isJump) {
+        if(Gdx.input.isKeyJustPressed(Input.Keys.UP)){
             isJumpU = true;
         }
         if (isJumpU) {
@@ -66,7 +66,7 @@ public class charMain {
                 isJumpU = false;
             }
         } else {
-            nJumpH = nY + 30;
+            nJumpH = nY + 60;
         }
         if (isJumpD) {
             if (nY >= 47) {
