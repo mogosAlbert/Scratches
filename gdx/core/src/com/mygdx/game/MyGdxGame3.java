@@ -17,13 +17,15 @@ public class MyGdxGame3 extends ApplicationAdapter {
     Texture imgB;
     TextureRegion img;
     Texture imgMap;
-    charMain char1;
+    charMain char1, char2, char3;
     int nFunc = 0, nMapX = 0;
     public boolean isFlip = false, isJump = false, isRun = true;
 
     @Override
     public void create() {
-        char1 = new charMain();
+        char1 = new charMain(500);
+        char2 = new charMain(300);
+        char3 = new charMain(700);
         batch = new SpriteBatch();
         imgMap = new Texture(Gdx.files.absolute("D:/Mogos/gdx/core/assets/map.png"));
     }
@@ -59,8 +61,13 @@ public class MyGdxGame3 extends ApplicationAdapter {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.begin();
         char1.update(nTempX, nTempY, isFlip, isRun);
+        char2.update(nTempX, nTempY, isFlip, isRun);
+        char3.update(nTempX, nTempY, isFlip, isRun);
         batch.draw(imgMap, nMapX, 0, 4800, 700);
         batch.draw(char1.img, char1.nX, char1.nY);
+        batch.draw(char2.img, char2.nX, char2.nY);
+        batch.draw(char3.img, char3.nX, char3.nY);
+        batch.draw(char3.img, char3.nX, char3.nY);
         batch.end();
     }
 }

@@ -20,7 +20,7 @@ public class charMain {
     boolean isJump, isRun, isJumpD = false, isJumpU = false;
     float fTime = 0;
 
-    public charMain() {
+    public charMain(int nInX) {
         for (int i = 0; i < imgStand.length; i++) {
             imgStand[i] = new Texture(Gdx.files.absolute("D:/Mogos/gdx/core/assets/standing/" + i + ".png"));
             imgRun[i] = new Texture(Gdx.files.absolute("D:/Mogos/gdx/core/assets/run/" + i + ".png"));
@@ -32,13 +32,14 @@ public class charMain {
         nJHeight = 35;
         nCount = 0;
         nCount2 = 0;
+        nX = nInX;
     }
 
     public void update(int nSpeedX, int nSpeedY, boolean isFlip, boolean isRunM) {
         nX += nSpeedX;
         isRun = isRunM;
         nCount++;
-        if (nCount >= 7) {
+        if (nCount >= 5) {
             nCount = 0;
             nCount2++;
         }
@@ -55,8 +56,10 @@ public class charMain {
             }
         }
         img.flip(isFlip, false);
-        if(Gdx.input.isKeyJustPressed(Input.Keys.UP)){
-            isJumpU = true;
+        if (!isJumpU && !isJumpD) {
+            if (Gdx.input.isKeyJustPressed(Input.Keys.UP)) {
+                isJumpU = true;
+            }
         }
         if (isJumpU) {
             if (nY <= nJumpH) {
