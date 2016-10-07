@@ -2,6 +2,7 @@ package Devmar;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -11,30 +12,41 @@ public class Devmar extends ApplicationAdapter {
 	SpriteBatch batch;
         Texture imgWalk[] = new Texture [7];
 	TextureRegion img;
-        int nCount = 0, nCount2 = 0;
+        int nCount = 0, nCount2 = 0, nSpeed;
+        float fRot;
+        charMain Char1;
+        Bullet bul;
+        boolean isBul = false;
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
-                for(int i = 0; i < imgWalk.length; i++){
-                    imgWalk[i] = new Texture(Gdx.files.absolute("D:/Mogos/Devmar/core/assets/walk/" + i + ".png"));
-                }
+                Char1 = new charMain();
+                
 	}
 
 	@Override
 	public void render () {
 		Gdx.gl.glClearColor(1, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+                nSpeed = 0;
                 nCount++;
-                if(nCount == 8){
-                    nCount2++;
-                    nCount = 0;
+                if(Gdx.input.isKeyPressed(Input.Keys.LEFT)){
+                    nSpeed = -2;
+                } else if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
+                    nSpeed = 2;
                 }
-                if(nCount2 == 6) {
-                    nCount2 = 0;
+                if(Gdx.input.isButtonPressed(Input.Buttons.LEFT)){
+                    bul = new Bullet(Char1.nX, Char1.nY);
+                    isBul = true;
                 }
 		batch.begin();
-                img = new TextureRegion(imgWalk[nCount2]);
-		batch.draw(img, 0, 0);
+                Char1.update(nSpeed);
+                if(isBul){
+                bul.update();
+                batch.draw(bul.imgBul, bul.nLoc.x, bul.nLoc.y);
+                }
+		batch.draw(Char1.imgOut, Char1.nX, Char1.nY);
+                
 		batch.end();
 	}
 }

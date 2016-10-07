@@ -5,21 +5,29 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class charMain {
-    Texture imgWalk[] = new Texture[7];
+    Texture imgWalk[] = new Texture[6];
     TextureRegion imgOut;
-    int nX, nY, nCount, nCount2;
+    int nCount, nCount2, nFrames[] = new int [3];
+    float nX, nY;
     
     public charMain() {
         for (int i = 0; i < imgWalk.length; i++){
-            imgWalk[i] = new Texture(Gdx.files.absolute("D:/Mogos/Devmar/core/assets/walk/" + i + ".png"));
+            imgWalk[i] = new Texture(Gdx.files.absolute("D:/Mogos/Devmar/core/assets/walk2/" + i + ".png"));
         }
         nX = 50;
         nY = 0;
     }
     
-    public void update(int nSpeedX, int nSpeedY) {
+    public void update(int nSpeedX) {
         nX += nSpeedX;
-        nY += nSpeedY;
-        
+        nCount++;
+        if(nCount == 7){
+            nCount = 0;
+            nCount2++;
+        }
+        if(nCount2 == imgWalk.length) {
+            nCount2 = 0;
+        }
+        imgOut = new TextureRegion(imgWalk[nCount2]);
     }
 }
