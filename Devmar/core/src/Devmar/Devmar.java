@@ -7,21 +7,23 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import java.util.ArrayList;
 
 public class Devmar extends ApplicationAdapter {
 	SpriteBatch batch;
         Texture imgWalk[] = new Texture [7];
 	TextureRegion img;
+        ArrayList <Bullet> ArrBul;
         int nCount = 0, nCount2 = 0, nSpeed;
         float fRot;
         charMain Char1;
         Bullet bul;
-        boolean isBul = false;
+        boolean isBul = false, isFlip = false;
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
                 Char1 = new charMain();
-                
+                ArrBul = new ArrayList<Bullet>();
 	}
 
 	@Override
@@ -32,18 +34,21 @@ public class Devmar extends ApplicationAdapter {
                 nCount++;
                 if(Gdx.input.isKeyPressed(Input.Keys.LEFT)){
                     nSpeed = -2;
+                    isFlip = true;
                 } else if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
                     nSpeed = 2;
+                    isFlip = false;
                 }
                 if(Gdx.input.isButtonPressed(Input.Buttons.LEFT)){
-                    bul = new Bullet(Char1.nX, Char1.nY);
-                    isBul = true;
+                    ArrBul.add(new Bullet(Char1.nX, Char1.nY));
+                    System.out.println("add");
                 }
 		batch.begin();
-                Char1.update(nSpeed);
-                if(isBul){
-                bul.update();
-                batch.draw(bul.imgBul, bul.nLoc.x, bul.nLoc.y);
+                Char1.update(nSpeed, isFlip);
+                for(int i = 0; i < ArrBul.size(); i++) {
+                    Bullet bulTemp = ArrBul.get(i);
+                    bulTemp.update();
+                    batch.draw(bulTemp.imgOut, bulTemp.nLoc.x, bulTemp.nLoc.y, (float) 25/2, (float) 25/2, (float) 25.0, (float)25.0, (float)1, (float)1, bulTemp.fRot);
                 }
 		batch.draw(Char1.imgOut, Char1.nX, Char1.nY);
                 
