@@ -70,7 +70,7 @@ public class charMain {
         } else if (nCurTex == 2) {
             imgOut = new TextureRegion(imgJump[nCount2]);
         } else if (nCurTex == 3) {
-            imgOut = new TextureRegion(imgAttack[2]);
+            imgOut = new TextureRegion(imgAttack[nCount2]);
         }
         imgOut.flip(isFlip, false);
     }
