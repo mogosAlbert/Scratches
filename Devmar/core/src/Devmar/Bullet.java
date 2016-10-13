@@ -24,5 +24,13 @@ public class Bullet {
         nLoc.x += MathUtils.cos(fRot/180*MathUtils.PI)*fSpeed;
         nLoc.y += MathUtils.sin(fRot/180*MathUtils.PI)*fSpeed;
     }
-           
+     public boolean isOffScreen () {
+         if(nLoc.x + 25 < 0 || nLoc.x > 1000) {
+             return true;
+         }
+         if (nLoc.y + 25 < 0 || nLoc.y > 500) {
+             return true;
+         }
+         return false;
+     }      
 }

@@ -11,9 +11,9 @@ public class charMain {
     Texture imgJump[] = new Texture[4];
     Texture imgAttack[] = new Texture[4];
     TextureRegion imgOut;
-    int nCount, nCount2, nFrames[] = new int [4], nCurTex = 0;
-    float nX, nY;
-    boolean isAttack;
+    int nCount, nCount2, nFrames[] = new int [4], nCurTex = 0, nJumpH;
+    float nX, nY, fShotX, fShotY;
+    boolean isAttack, isJumpU, isJumpD;
     public charMain() {
         for (int i = 0; i < imgWalk.length; i++) {
             imgWalk[i] = new Texture(Gdx.files.absolute("D:/Mogos/Devmar/core/assets/walk2/" + i + ".png"));
@@ -36,7 +36,14 @@ public class charMain {
     }
     
     public void update(int nSpeedX, boolean isFlip) {
-        nX += nSpeedX;
+        if (isFlip) {
+            fShotX = nX;
+            fShotY = nY + 20;   
+        } else {
+            fShotX = nX + 30;
+            fShotY = nY + 20;
+        }
+        
         nCount++;
         if(nSpeedX != 0) {
             nCurTex = 1;
@@ -55,7 +62,9 @@ public class charMain {
         }
         if(isAttack){
             nCurTex = 3;
-            
+            nSpeedX = 0;
+        } else if(isJumpU){
+            nCurTex = 2;
         }
         if(nCount2 >= nFrames[nCurTex]) {
             nCount2 = 0;
@@ -71,6 +80,31 @@ public class charMain {
             imgOut = new TextureRegion(imgJump[nCount2]);
         } else if (nCurTex == 3) {
             imgOut = new TextureRegion(imgAttack[nCount2]);
+        }
+        nX += nSpeedX;
+        if (!isJumpU && !isJumpD) {
+            if (Gdx.input.isKeyJustPressed(Input.Keys.UP)) {
+                isJumpU = true;
+                nCount2 = 0;
+            }
+        }
+        if (isJumpU) {
+            if (nY <= nJumpH) {
+                nY += 2;
+            } else {
+                isJumpD = true;
+                isJumpU = false;
+            }
+        } else {
+            nJumpH = (int) nY + 55;
+        }
+        if (isJumpD) {
+            if (nY >= 47) {
+                nY--;
+                imgOut = new TextureRegion(imgJump[3]);
+            } else {
+                isJumpD = false;
+            }
         }
         imgOut.flip(isFlip, false);
     }

@@ -39,8 +39,8 @@ public class Devmar extends ApplicationAdapter {
                     nSpeed = 2;
                     isFlip = false;
                 }
-                if(Gdx.input.isButtonPressed(Input.Buttons.LEFT)){
-                    ArrBul.add(new Bullet(Char1.nX, Char1.nY));
+                if(Gdx.input.isKeyJustPressed(Input.Keys.S)){
+                    ArrBul.add(new Bullet(Char1.fShotX, Char1.fShotY));
                     System.out.println("add");
                 }
 		batch.begin();
@@ -48,10 +48,13 @@ public class Devmar extends ApplicationAdapter {
                 for(int i = 0; i < ArrBul.size(); i++) {
                     Bullet bulTemp = ArrBul.get(i);
                     bulTemp.update();
+                    if (bulTemp.isOffScreen()) {
+                        ArrBul.remove(i);
+                    }
                     batch.draw(bulTemp.imgOut, bulTemp.nLoc.x, bulTemp.nLoc.y, (float) 25/2, (float) 25/2, (float) 25.0, (float)25.0, (float)1, (float)1, bulTemp.fRot);
                 }
 		batch.draw(Char1.imgOut, Char1.nX, Char1.nY);
-                
+                System.out.println(ArrBul.size());
 		batch.end();
 	}
 }
