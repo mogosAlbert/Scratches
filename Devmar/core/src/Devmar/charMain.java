@@ -10,10 +10,11 @@ public class charMain {
     Texture imgStand[] = new Texture[3];
     Texture imgJump[] = new Texture[4];
     Texture imgAttack[] = new Texture[4];
+    Texture imgHeavy[] = new Texture[9];
     TextureRegion imgOut;
-    int nCount, nCount2, nFrames[] = new int [4], nCurTex = 0, nJumpH;
+    int nCount, nCount2, nFrames[] = new int [5], nCurTex = 0, nJumpH;
     float nX, nY, fShotX, fShotY;
-    boolean isAttack, isJumpU, isJumpD;
+    boolean isAttack, isJumpU, isJumpD, isHeavy;
     public charMain() {
         for (int i = 0; i < imgWalk.length; i++) {
             imgWalk[i] = new Texture(Gdx.files.absolute("D:/Mogos/Devmar/core/assets/walk2/" + i + ".png"));
@@ -24,8 +25,11 @@ public class charMain {
         for (int i = 0; i < imgJump.length; i++) {
             imgJump[i] = new Texture(Gdx.files.absolute("D:/Mogos/Devmar/core/assets/Jump/" + i + ".png"));
         }
-        for(int i = 0; i < imgAttack.length; i++){
+        for(int i = 0; i < imgAttack.length; i++) {
             imgAttack[i] = new Texture(Gdx.files.absolute("D:/Mogos/Devmar/core/assets/Attack/" + i + ".png"));
+        }
+        for (int i = 0; i < imgHeavy.length; i++) {
+            imgHeavy[i] = new Texture(Gdx.files.absolute("D:/Mogos/Devmar/core/assets/Heavy/" + i + ".png"));
         }
         nX = 70;
         nY = 120;
@@ -33,6 +37,7 @@ public class charMain {
         nFrames[1] = imgWalk.length;
         nFrames[2] = imgJump.length;
         nFrames[3] = imgAttack.length;
+        nFrames[4] = imgHeavy.length;
     }
     
     public void update(int nSpeedX, boolean isFlip) {
@@ -58,6 +63,9 @@ public class charMain {
             if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE)){
                 isAttack = true;
                 nCount2 = 0;
+            } else if(Gdx.input.isKeyJustPressed(Input.Keys.H)) {
+                isHeavy = true;
+                nCount2 = 0;
             }
         }
         if(isAttack){
@@ -65,11 +73,15 @@ public class charMain {
             nSpeedX = 0;
         } else if(isJumpU){
             nCurTex = 2;
+        } else if(isHeavy) {
+            nCurTex = 4;
+            nSpeedX = 0;
         }
         if(nCount2 >= nFrames[nCurTex]) {
             nCount2 = 0;
-            if(nCurTex == 3) {
+            if(nCurTex == 3 || nCurTex == 4) {
                 isAttack = false;
+                isHeavy = false;
             }
         }
         if(nCurTex == 0) {
@@ -80,6 +92,8 @@ public class charMain {
             imgOut = new TextureRegion(imgJump[nCount2]);
         } else if (nCurTex == 3) {
             imgOut = new TextureRegion(imgAttack[nCount2]);
+        } else if (nCurTex == 4) {
+            imgOut = new TextureRegion(imgHeavy[nCount2]);
         }
         nX += nSpeedX;
         if (!isJumpU && !isJumpD) {
