@@ -3,6 +3,7 @@ package Devmar;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -18,12 +19,14 @@ public class Devmar extends ApplicationAdapter {
         float fRot;
         charMain Char1;
         Bullet bul;
-        boolean isBul = false, isFlip = false;
+        boolean isBul = false, isFlip = false, isPlay = false;
+        Music music;
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
                 Char1 = new charMain();
                 ArrBul = new ArrayList<Bullet>();
+                music = Gdx.audio.newMusic(Gdx.files.absolute("D:/Mogos/Devmar/core/assets/Music/music1.mp3"));
 	}
 
 	@Override
@@ -42,6 +45,14 @@ public class Devmar extends ApplicationAdapter {
                 if(Gdx.input.isKeyJustPressed(Input.Keys.S)){
                     ArrBul.add(new Bullet(Char1.fShotX, Char1.fShotY));
                     System.out.println("add");
+                }
+                if(Gdx.input.isKeyJustPressed(Input.Keys.P)) {
+                    isPlay = !isPlay;
+                }
+                if(isPlay) {
+                    music.play();
+                } else if(!isPlay){
+                    music.pause();
                 }
 		batch.begin();
                 Char1.update(nSpeed, isFlip);

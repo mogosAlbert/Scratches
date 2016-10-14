@@ -2,6 +2,7 @@ package Devmar;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
@@ -15,6 +16,7 @@ public class charMain {
     int nCount, nCount2, nFrames[] = new int [5], nCurTex = 0, nJumpH;
     float nX, nY, fShotX, fShotY;
     boolean isAttack, isJumpU, isJumpD, isHeavy;
+    Sound sJump, sAttack;
     public charMain() {
         for (int i = 0; i < imgWalk.length; i++) {
             imgWalk[i] = new Texture(Gdx.files.absolute("D:/Mogos/Devmar/core/assets/walk2/" + i + ".png"));
@@ -38,6 +40,8 @@ public class charMain {
         nFrames[2] = imgJump.length;
         nFrames[3] = imgAttack.length;
         nFrames[4] = imgHeavy.length;
+        sJump = Gdx.audio.newSound(Gdx.files.absolute("D:/Mogos/Devmar/core/assets/Music/Jump.wav"));
+        sAttack = Gdx.audio.newSound(Gdx.files.absolute("D:/Mogos/Devmar/core/assets/Music/attack.mp3"));
     }
     
     public void update(int nSpeedX, boolean isFlip) {
@@ -63,9 +67,11 @@ public class charMain {
             if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE)){
                 isAttack = true;
                 nCount2 = 0;
+                sAttack.play(1.0f);
             } else if(Gdx.input.isKeyJustPressed(Input.Keys.H)) {
                 isHeavy = true;
                 nCount2 = 0;
+   
             }
         }
         if(isAttack){
@@ -100,6 +106,7 @@ public class charMain {
             if (Gdx.input.isKeyJustPressed(Input.Keys.UP)) {
                 isJumpU = true;
                 nCount2 = 0;
+                sJump.play(1.0f);
             }
         }
         if (isJumpU) {
