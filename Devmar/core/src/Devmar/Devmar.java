@@ -18,6 +18,7 @@ public class Devmar extends ApplicationAdapter {
         int nCount = 0, nCount2 = 0, nSpeed;
         float fRot;
         charMain Char1;
+        ArrayList <charEnemy> ArrEnemies;
         Bullet bul;
         boolean isBul = false, isFlip = false, isPlay = false;
         Music music;
@@ -25,6 +26,7 @@ public class Devmar extends ApplicationAdapter {
 	public void create () {
 		batch = new SpriteBatch();
                 Char1 = new charMain();
+                ArrEnemies = new ArrayList<charEnemy>();
                 ArrBul = new ArrayList<Bullet>();
                 music = Gdx.audio.newMusic(Gdx.files.absolute("D:/Mogos/Devmar/core/assets/Music/music1.mp3"));
 	}
@@ -48,6 +50,7 @@ public class Devmar extends ApplicationAdapter {
                 }
                 if(Gdx.input.isKeyJustPressed(Input.Keys.P)) {
                     isPlay = !isPlay;
+                    ArrEnemies.add(new charEnemy(700, 120));
                 }
                 if(isPlay) {
                     music.play();
@@ -64,7 +67,12 @@ public class Devmar extends ApplicationAdapter {
                     }
                     batch.draw(bulTemp.imgOut, bulTemp.nLoc.x, bulTemp.nLoc.y, (float) 25/2, (float) 25/2, (float) 25.0, (float)25.0, (float)1, (float)1, bulTemp.fRot);
                 }
-		batch.draw(Char1.imgOut, Char1.nX, Char1.nY);
+                for(int i = 0; i < ArrEnemies.size(); i++){
+                    charEnemy enemTemp = ArrEnemies.get(i);
+                    enemTemp.update(enemTemp.nDirSpeed(Char1.vLoc));
+                    batch.draw(enemTemp.imgOut, enemTemp.vLoc.x, enemTemp.vLoc.y);
+                }
+		batch.draw(Char1.imgOut, Char1.vLoc.x, Char1.vLoc.y);
                 System.out.println(ArrBul.size());
 		batch.end();
 	}

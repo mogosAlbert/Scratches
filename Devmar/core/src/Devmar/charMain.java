@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector2;
 
 public class charMain {
     Texture imgWalk[] = new Texture[6];
@@ -15,26 +16,26 @@ public class charMain {
     TextureRegion imgOut;
     int nCount, nCount2, nFrames[] = new int [5], nCurTex = 0, nJumpH;
     float nX, nY, fShotX, fShotY;
+    Vector2 vLoc;
     boolean isAttack, isJumpU, isJumpD, isHeavy;
     Sound sJump, sAttack;
     public charMain() {
         for (int i = 0; i < imgWalk.length; i++) {
-            imgWalk[i] = new Texture(Gdx.files.absolute("D:/Mogos/Devmar/core/assets/walk2/" + i + ".png"));
+            imgWalk[i] = new Texture(Gdx.files.absolute("D:/Mogos/Devmar/core/assets/Wolverine/walk2/" + i + ".png"));
         }
         for (int i = 0; i < imgStand.length; i++) {
-            imgStand[i] = new Texture(Gdx.files.absolute("D:/Mogos/Devmar/core/assets/Stand/" + i + ".png"));
+            imgStand[i] = new Texture(Gdx.files.absolute("D:/Mogos/Devmar/core/assets/Wolverine/Stand/" + i + ".png"));
         }
         for (int i = 0; i < imgJump.length; i++) {
-            imgJump[i] = new Texture(Gdx.files.absolute("D:/Mogos/Devmar/core/assets/Jump/" + i + ".png"));
+            imgJump[i] = new Texture(Gdx.files.absolute("D:/Mogos/Devmar/core/assets/Wolverine/Jump/" + i + ".png"));
         }
         for(int i = 0; i < imgAttack.length; i++) {
-            imgAttack[i] = new Texture(Gdx.files.absolute("D:/Mogos/Devmar/core/assets/Attack/" + i + ".png"));
+            imgAttack[i] = new Texture(Gdx.files.absolute("D:/Mogos/Devmar/core/assets/Wolverine/Attack/" + i + ".png"));
         }
         for (int i = 0; i < imgHeavy.length; i++) {
-            imgHeavy[i] = new Texture(Gdx.files.absolute("D:/Mogos/Devmar/core/assets/Heavy/" + i + ".png"));
+            imgHeavy[i] = new Texture(Gdx.files.absolute("D:/Mogos/Devmar/core/assets/Wolverine/Heavy/" + i + ".png"));
         }
-        nX = 70;
-        nY = 120;
+        vLoc = new Vector2(70, 120);
         nFrames[0] = imgStand.length;
         nFrames[1] = imgWalk.length;
         nFrames[2] = imgJump.length;
@@ -46,11 +47,11 @@ public class charMain {
     
     public void update(int nSpeedX, boolean isFlip) {
         if (isFlip) {
-            fShotX = nX;
-            fShotY = nY + 20;   
+            fShotX = vLoc.x;
+            fShotY = vLoc.y + 20;   
         } else {
-            fShotX = nX + 30;
-            fShotY = nY + 20;
+            fShotX = vLoc.x + 30;
+            fShotY = vLoc.y + 20;
         }
         
         nCount++;
@@ -101,7 +102,7 @@ public class charMain {
         } else if (nCurTex == 4) {
             imgOut = new TextureRegion(imgHeavy[nCount2]);
         }
-        nX += nSpeedX;
+        vLoc.x += nSpeedX;
         if (!isJumpU && !isJumpD) {
             if (Gdx.input.isKeyJustPressed(Input.Keys.UP)) {
                 isJumpU = true;
@@ -110,18 +111,18 @@ public class charMain {
             }
         }
         if (isJumpU) {
-            if (nY <= nJumpH) {
-                nY += 2;
+            if (vLoc.y <= nJumpH) {
+                vLoc.y += 2;
             } else {
                 isJumpD = true;
                 isJumpU = false;
             }
         } else {
-            nJumpH = (int) nY + 55;
+            nJumpH = (int) vLoc.y + 55;
         }
         if (isJumpD) {
-            if (nY >= 47) {
-                nY--;
+            if (vLoc.y >= 47) {
+                vLoc.y--;
                 imgOut = new TextureRegion(imgJump[3]);
             } else {
                 isJumpD = false;
