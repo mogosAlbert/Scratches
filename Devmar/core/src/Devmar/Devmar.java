@@ -3,15 +3,18 @@ package Devmar;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import java.util.ArrayList;
 
-public class Devmar extends ApplicationAdapter {
+public class Devmar extends ApplicationAdapter{
 	SpriteBatch batch;
+        Sprite Enemy;
         Texture imgWalk[] = new Texture [7];
 	TextureRegion img;
         ArrayList <Bullet> ArrBul;
@@ -69,8 +72,8 @@ public class Devmar extends ApplicationAdapter {
                 }
                 for(int i = 0; i < ArrEnemies.size(); i++){
                     charEnemy enemTemp = ArrEnemies.get(i);
-                    enemTemp.update(enemTemp.nDirSpeed(Char1.vLoc));
-                    batch.draw(enemTemp.imgOut, enemTemp.vLoc.x, enemTemp.vLoc.y);
+                    enemTemp.update(enemTemp.nDirSpeed(Char1.vLoc), Char1.vLoc);
+                    batch.draw(enemTemp.imgOut,enemTemp.vLoc.x, enemTemp.vLoc.y, 40, 70);
                 }
 		batch.draw(Char1.imgOut, Char1.vLoc.x, Char1.vLoc.y);
                 System.out.println(ArrBul.size());

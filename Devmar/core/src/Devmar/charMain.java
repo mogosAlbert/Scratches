@@ -2,19 +2,20 @@ package Devmar;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 
-public class charMain {
+public class charMain{
     Texture imgWalk[] = new Texture[6];
     Texture imgStand[] = new Texture[3];
     Texture imgJump[] = new Texture[4];
     Texture imgAttack[] = new Texture[4];
     Texture imgHeavy[] = new Texture[9];
     TextureRegion imgOut;
-    int nCount, nCount2, nFrames[] = new int [5], nCurTex = 0, nJumpH;
+    int nCount, nCount2, nFrames[] = new int [5], nCurTex = 0, nJumpH, nSpeedX;
     float nX, nY, fShotX, fShotY;
     Vector2 vLoc;
     boolean isAttack, isJumpU, isJumpD, isHeavy;
