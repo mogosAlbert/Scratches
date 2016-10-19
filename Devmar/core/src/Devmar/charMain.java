@@ -6,6 +6,7 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
 public class charMain{
@@ -15,11 +16,12 @@ public class charMain{
     Texture imgAttack[] = new Texture[4];
     Texture imgHeavy[] = new Texture[9];
     TextureRegion imgOut;
-    int nCount, nCount2, nFrames[] = new int [5], nCurTex = 0, nJumpH, nSpeedX;
+    int nCount, nCount2, nFrames[] = new int [5], nCurTex = 0, nJumpH, nSpeedX, nFloor;
     float nX, nY, fShotX, fShotY;
     Vector2 vLoc;
     boolean isAttack, isJumpU, isJumpD, isHeavy;
     Sound sJump, sAttack;
+    Rectangle RectDet;
     public charMain() {
         for (int i = 0; i < imgWalk.length; i++) {
             imgWalk[i] = new Texture(Gdx.files.absolute("D:/Mogos/Devmar/core/assets/Wolverine/walk2/" + i + ".png"));
@@ -47,6 +49,7 @@ public class charMain{
     }
     
     public void update(int nSpeedX, boolean isFlip) {
+        RectDet = new Rectangle(vLoc.x, vLoc.y, 60, 60);
         if (isFlip) {
             fShotX = vLoc.x;
             fShotY = vLoc.y + 20;   
@@ -73,7 +76,6 @@ public class charMain{
             } else if(Gdx.input.isKeyJustPressed(Input.Keys.H)) {
                 isHeavy = true;
                 nCount2 = 0;
-   
             }
         }
         if(isAttack){
@@ -108,6 +110,7 @@ public class charMain{
             if (Gdx.input.isKeyJustPressed(Input.Keys.UP)) {
                 isJumpU = true;
                 nCount2 = 0;
+                nFloor =(int) vLoc.y;
                 sJump.play(1.0f);
             }
         }
@@ -122,8 +125,8 @@ public class charMain{
             nJumpH = (int) vLoc.y + 55;
         }
         if (isJumpD) {
-            if (vLoc.y >= 47) {
-                vLoc.y--;
+            if (vLoc.y >= nFloor) {
+                vLoc.y-= 2;
                 imgOut = new TextureRegion(imgJump[3]);
             } else {
                 isJumpD = false;
