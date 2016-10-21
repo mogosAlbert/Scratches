@@ -49,7 +49,7 @@ public class SprMain extends Sprite implements InputProcessor {
         boolean isColX = false, isColY = false;
         if (vVelocity.x < 0) {
             isColX = isColLeft();
-        } else if (vVelocity.x > 0)\
+        } else if (vVelocity.x > 0)
         {
             isColX = isColRight();
         }
